@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+<head>
+  <title>Winston and the Rain</title>
+</head>
+<body>
+    <!--
+    <script src="processing.js"></script>
+    <script type="text/processing" data-processing-target="mycanvas">
+    void setup()
+    {
+    size(400,400);
+    background(125);
+    fill(255);
+    //noLoop();
+    PFont fontA = loadFont("courier");
+    textFont(fontA, 14);
+    }
+    var xPositions = [random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400)];
+    var yPositions = [random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400), random(0, 400)];
+    draw = function() {
+    /*********************
+    *
+    * Rain
+    *
+    **********************/
+    var rainColorR = 42;
+    var rainColorG = 74;
+    var rainColorB = 122;
+    background(rainColorR, rainColorG, rainColorB);
+    // make rain fall. The length is randomized by % 2
+    for (var i = 0; i < xPositions.length; i++) {
+    noStroke();
+    fill(0, 200, 255);
+    // define variables for the rain: length, speed, and color)
+    var rainLength = 0;
+    var rainSpeed = 0;
+    var rainSpeedMultiplier = 1.5;
+    // create variation in rain variables (if they're closer to the camera, make the drops bigger and faster)
+    if (xPositions[i] % 2 < 1) {
+    var rainLength = 10;
+    var rainSpeed = 8 * rainSpeedMultiplier;
+    fill(rainColorR+20+10, rainColorG+20+10, rainColorB+20);
+    } else if (xPositions[i] % 3 < 2) {
+    var rainLength = 15;
+    var rainSpeed = 12 * rainSpeedMultiplier;
+    fill(rainColorR+40+20, rainColorG+40+20, rainColorB+40);
+    } else {
+    var rainLength = 35;
+    var rainSpeed = 12 * rainSpeedMultiplier;
+    fill(rainColorR+40+25, rainColorG+40+25, rainColorB+40);
+    }
+    // draw the rain
+    rect(xPositions[i], yPositions[i], 1, rainLength);
+    // animate the rain
+    if (yPositions[i] < mouseY-150 || xPositions[i] < mouseX-100 && yPositions[i] < 400 || xPositions[i] > mouseX +100 && yPositions[i] < 400) {
+    yPositions[i] += rainSpeed;
+    } else if (yPositions[i] > mouseY-150) {
+    yPositions[i] = 0 - random(0, 400);
+    } else {
+    yPositions[i] = 0;
+    }
+    }
+    /*********************
+    *
+    * Winston
+    *
+    **********************/
+    noStroke();
+    // translate & scale Winston
+    pushMatrix();
+    translate(200, 370);
+    scale(0.20);
+    // face
+    fill(255, 255, 0);
+    ellipse(0, 0, 300, 300);
+    // draw a surprised face when the user doesn't put the umbrella over Winston, and a happy face when the user does
+    if (mouseX > 110 && mouseX < 290) {
+    // happy eyes & mouth
+    noFill();
+    stroke(0, 0, 0);
+    arc(-20, -40, 40, -40, 0, PI);
+    arc(90, -40, 40, -40, 0, PI);
+    noStroke();
+    fill(252, 65, 65);
+    arc(40, 30, 120, 140, 0, PI);
+    } else {
+    // surprised eyes and mouth
+    fill(46, 46, 41);
+    ellipse(0-18, 0-63, 60, 105);
+    ellipse(0+85, 0-63, 60, 105);
+    fill(252, 65, 65);
+    ellipse(0+38, 0+50, 120, 145);
+    }
+    popMatrix();
+    // draw umbrella
+    pushMatrix();
+    translate(mouseX, mouseY - 90);
+    var translateUmbrella = 0;
+    noStroke();
+    fill(0, 0, 0);
+    ellipse(0, - 98, 10, 10);
+    fill(204, 8, 8);
+    arc(0, 0, 200, -200, 0, PI);
+    fill(176, 0, 0);
+    arc(0, 0, 200, -200, 0, PI/2);
+    fill(242, 106, 106);
+    arc(0, 0, 100, -200, PI/2, PI);
+    fill(204, 8, 8);
+    arc(0, 0, 100,-200, 0, PI/2);
+    fill(rainColorR, rainColorG, rainColorB);
+    arc(-75, 1, 50, -40, 0, PI);
+    arc(-25, 1, 50, -40, 0, PI);
+    arc(25, 1, 50, -40, 0, PI);
+    arc(75, 1, 50, -40, 0, PI);
+    fill(125, 51, 1);
+    arc(4, 0, 8, -18, PI/2, PI);
+    arc(-4, 0, 8, -18, 0, PI/2);
+    rect(-4, 0, 8, 85);
+    fill(28, 28, 28);
+    rect(-5, 82, 10, 19);
+    arc(8.5, 100, 26.5, 25, 0, PI);
+    arc(18, 100, 8.5, -10, 0, PI);
+    fill(rainColorR, rainColorG, rainColorB);
+    arc(10, 100, 9, 6, 0, PI);
+    popMatrix();
+    };
+    </script>
+    <canvas id="mycanvas"></canvas>
+    -->
+</body>
+</html>
